@@ -18,7 +18,7 @@ class App extends Component {
         this.Axios.get('/api/listLinesRest')
             .then(function (response) {
                 console.log(response);
-                _this.setState({listLines: response.data});
+                _this.setState({listLines: response.data.listLinesJson});
             })
             .catch(function (error) {
                 console.log(error);
@@ -44,9 +44,9 @@ class App extends Component {
 
     render() {
 
-        var listLines = this.state.listLines.map((listLines) =>
-            <ListMapping key={this.state.listLine.id} listLines={listLines}/>
-        );
+        // var listLines = this.state.listLines.listLinesJson.map((listLines) =>
+        //     <ListMapping key={this.state.listLines.listLinesJson.id} listLines={listLines}/>
+        // );
 
         return(
             <div>
@@ -67,7 +67,7 @@ class App extends Component {
 
                 </h3>
 
-                <button className="parse-button"  onClick={ this.button() }>Parse File</button>
+                <button className="parse-button"  onClick={ this.Axios.get('/parse') }>Parse File</button>
 
 
 
@@ -81,7 +81,7 @@ class App extends Component {
                         <td>Average Word Length</td>
                         <td width="40px"></td>
                     </tr>
-                    {listLines}
+                    {/*{listLines}*/}
                     </tbody>
                 </table>
 
@@ -91,7 +91,8 @@ class App extends Component {
     }
 
     button(){
-        axios.get('/parse');
+
+        this.Axios.get('/parse');
 
     }
 

@@ -46,7 +46,7 @@
 <%--</table>--%>
 
 <div id="app" width="1000px"></div>
-<script type="text/javascript" src="/resources/js/index_bundle.js"></script></body>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/index_bundle.js"></script></body>
 
 
 </body>
