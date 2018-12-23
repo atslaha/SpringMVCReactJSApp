@@ -1,0 +1,17 @@
+   tr:first-child{
+       font-weight: bold;
+       background-color: #C6C9C4;}
+       
+   input {
+     margin: 5px 0;}
+   
+   table {
+    border-collapse: collapse;}
+
+  table, th, td {
+      border: 1px solid black;}
+  
+  div{
+    max-width:300px;
+    margin: left;
+    border: 1px solid black;}
