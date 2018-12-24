@@ -1,4 +1,4 @@
-# SpringMVCApp
+# SpringMVC + ReactJS + Hibernate + MySQL App
 
 1. To install ReactApp you need:
     - open folder with react app in your terminal,
