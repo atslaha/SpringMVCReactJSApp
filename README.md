@@ -8,14 +8,14 @@
 2. Create folder /src/main/webapp/properties ,
     Create file "database.properties" inside properties folder.
     
-    Pste next code in database.properties :
+    Paste next code in database.properties :
     
     jdbc.driverClassName=com.mysql.jdbc.Driver
     jdbc.url=jdbc:mysql://localhost:3306/testmyapp
     jdbc.username=root
     jdbc.password=root 
     
-3. Change jdbc.username , jdbc.password as in your 
+3. Change jdbc.username , jdbc.password and jdbc.url as in your 
    databse. In my case I change just password on my 
    local MySQL database. 
    
