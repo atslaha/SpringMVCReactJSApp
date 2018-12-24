@@ -1,7 +1,7 @@
 package il.co.springmvc.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import il.co.springmvc.entities.LinesStatistics;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +12,7 @@ import il.co.springmvc.util.LongestAndShortestWord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,26 +50,32 @@ public class LinesStatisticsRESTController {
 
     @GetMapping(value={"/listLinesRest"})
     public ResponseEntity<?> listLinesRest(){
-        List<LinesStatistics> listLines = service.listLines();
+        List<LinesStatistics> listLines = (ArrayList) service.listLines();
         String result = "Parse OK! REST is working!)";
         ObjectMapper mapper = new ObjectMapper();
-        String listLinesJson = "Empy Json Request";
-        String [] listLinesArray = (String[]) listLines.toArray();
-        try {
-            listLinesJson = mapper.writeValueAsString(listLinesArray.toString());
-            System.out.println("List Json:  "+listLinesJson);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+//        String listLinesJson = "Empy Json Request";
+
+        String listLinesJson = new Gson().toJson(listLines);
+        System.out.println("List Json:  "+listLinesJson);
+
+        //String [] listLinesArray = (String[]) listLines.toArray();
+//        try {
+//            listLinesJson = mapper.writeValueAsString(listLines);
+//            System.out.println("List Json:  "+listLinesJson);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
 
         return new ResponseEntity( listLinesJson, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/listLinesRequest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<LinesStatistics> listLinesRequest(){
+    String listLinesRequest(){
         List<LinesStatistics> listLines = service.listLines();
-        return listLines;
+        String listLinesJson = new Gson().toJson(listLines);
+
+        return listLinesJson;
     }
 
 

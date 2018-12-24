@@ -11,7 +11,9 @@ import java.util.Scanner;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,7 +64,7 @@ public class  LinesStatisticsController {
 	 * Upload single file using Spring Controller
 	 */
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	public @ResponseBody ModelAndView uploadFileHandler(@RequestParam("name") String name, 
+	public @ResponseBody ModelAndView uploadFileHandler(@RequestParam("name") String name,
 									@RequestParam("file") MultipartFile file) {
 		
 		ModelAndView view = new ModelAndView("hello");
@@ -173,6 +175,17 @@ public class  LinesStatisticsController {
     	//service.deleteEmployeeBySsn(id);
         return "redirect:/list";
     }
+
+    // TEST CONTROLLERS
+
+	@RequestMapping(value = "/listLinesRequest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody
+	String listLinesRequest(){
+		List<LinesStatistics> listLines = service.listLines();
+		String listLinesJson = new Gson().toJson(listLines);
+
+		return listLinesJson;
+	}
 
 
 }
