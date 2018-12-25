@@ -168,12 +168,15 @@ public class  LinesStatisticsController {
     /**
      * This method will delete a line by it's line_id value.
      */
+	@CrossOrigin
     @RequestMapping(value = { "/delete-{line_id}-line" }, method = RequestMethod.GET)
-    public String deleteEmployee(@PathVariable Integer line_id) {
+    public ResponseEntity<?> deleteEmployee(@PathVariable Integer line_id) {
         LinesStatistics lineStatistic = service.findId(line_id);
         service.deleteById(lineStatistic);
-    	//service.deleteEmployeeBySsn(id);
-        return "redirect:/list";
+    	//service.deleteEmployeeBySsn(id);   /delete-{line_id}-line /delete-line/{line_id} "redirect:/listLinesRequest"
+		String messageJson = new Gson().toJson("File was deleted!");
+		return new ResponseEntity(messageJson,HttpStatus.OK);
+
     }
 
     // TEST CONTROLLERS

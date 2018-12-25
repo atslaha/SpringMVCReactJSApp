@@ -44,8 +44,17 @@ class App extends Component {
 
     }buttonListLines(){
 
-        axios.get('http://localhost:8080/listLinesRequest').then(response => console.log(response));
+     //   axios.get('http://localhost:8080/listLinesRequest').then(response => console.log(response));
 
+            let _this = this;
+            this.Axios.get('http://localhost:8080/listLinesRequest')
+                .then(function (response) {
+                    console.log(response);
+                    _this.setState({listLines: response.data});
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
     }
 
 
@@ -53,9 +62,9 @@ class App extends Component {
 
     render() {
 
-        // var listLines = this.state.listLines.listLinesJson.map((listLines) =>
-        //     <ListMapping key={this.state.listLines.listLinesJson.id} listLines={listLines}/>
-        // );
+        var listLines = this.state.listLines.map((listLines) =>
+            <ListMapping key={listLines.line_id} listLines={listLines}/>
+        );
 
         return(
             <div>
@@ -72,7 +81,7 @@ class App extends Component {
                 <UploadFile/><br/>
 
                 <button className="parse-button"  onClick={this.buttonPrse}>Parse File</button><br/>
-                <button className="listLinesRequest-button"  onClick={this.buttonListLines}>List of Lines</button><br/>
+                <button className="listLinesRequest-button"  onClick={this.buttonListLines.bind(this)}>List of Lines</button><br/>
 
 
                 <a href="responseentity">Test...</a>
@@ -87,7 +96,7 @@ class App extends Component {
                         <td>Average Word Length</td>
                         <td width="40px"></td>
                     </tr>
-                    {/*{listLines}*/}
+                    {listLines}
 
                     </tbody>
                 </table>
