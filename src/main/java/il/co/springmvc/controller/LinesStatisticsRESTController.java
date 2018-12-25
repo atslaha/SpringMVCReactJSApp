@@ -83,7 +83,7 @@ public class LinesStatisticsRESTController {
     }
 
 
-    @PostMapping(value = "/uploadFilee")
+    @PostMapping(value = "/uploadFilee1")
     public @ResponseBody String uploadFileHandler(@RequestParam("name") String name,
                                                              @RequestParam("file") MultipartFile file) {
 

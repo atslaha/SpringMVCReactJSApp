@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ListMapping from './ListMaping';
+import UploadFile from './UploadFile';
 
 class App extends Component {
 
@@ -67,7 +68,9 @@ class App extends Component {
 
                 </h3>
 
-                <button className="parse-button"  onClick={this.button}>Parse File</button>
+                <button className="parse-button"  onClick={this.buttonPrse}>Parse File</button><br/>
+                <button className="listLinesRequest-button"  onClick={this.buttonListLines}>List of Lines</button><br/>
+
 
                 <a href="responseentity">Test...</a>
 
@@ -84,17 +87,22 @@ class App extends Component {
                         <td width="40px"></td>
                     </tr>
                     {/*{listLines}*/}
+
                     </tbody>
                 </table>
-
+                <UploadFile/>
 
             </div>
         );
     }
 
-    button(){
+    buttonPrse(){
 
         axios.get('http://localhost:8080/parse').then(response => console.log(response));
+
+    }buttonListLines(){
+
+        axios.get('http://localhost:8080/listLinesRequest').then(response => console.log(response));
 
     }
 
