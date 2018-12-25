@@ -18,6 +18,18 @@ module.exports = {
             }
         ]
     },
+    devServer: {
+        inline:true,
+        port: 8008,
+        headers: { "Access-Control-Allow-Origin": "*" },
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        },
+
+    },
+
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html'

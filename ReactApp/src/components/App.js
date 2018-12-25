@@ -13,17 +13,17 @@ class App extends Component {
         });
     }
 
-    componentDidMount() {
-        let _this = this;
-        this.Axios.get('/api/listLinesRest')
-            .then(function (response) {
-                console.log(response);
-                _this.setState({listLines: response.data.listLinesJson});
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
+    // componentDidMount() {
+    //     let _this = this;
+    //     this.Axios.get('/listLinesRequest')
+    //         .then(function (response) {
+    //             console.log(response);
+    //             _this.setState({listLines: response.data});
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         });
+    // }
 
     getMassege(){
         var str,str1 ;
@@ -56,7 +56,7 @@ class App extends Component {
                 <h1>I'm Happy</h1>
 
 
-                <form method="POST" action="uploadFile" encType="multipart/form-data">
+                <form method="POST" action="http://localhost:8080/uploadFile" encType="multipart/form-data">
                     File to upload: <input type="file" name="file" accept="text/plain" /><br/>
                     Name: <input type="text" name="name" /><br/>
                         <input type="submit" value="Upload" /> Press here to upload the file!
@@ -67,7 +67,9 @@ class App extends Component {
 
                 </h3>
 
-                <button className="parse-button"  onClick={ this.Axios.get('/parse') }>Parse File</button>
+                <button className="parse-button"  onClick={this.button}>Parse File</button>
+
+                <a href="responseentity">Test...</a>
 
 
 
@@ -92,7 +94,7 @@ class App extends Component {
 
     button(){
 
-        this.Axios.get('/parse');
+        axios.get('http://localhost:8080/parse').then(response => console.log(response));
 
     }
 

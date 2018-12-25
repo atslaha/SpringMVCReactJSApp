@@ -1,11 +1,11 @@
-# SpringMVC + ReactJS + Hibernate + MySQL App
+# SpringMVC + ReactJS + Hibernate + MySQL + Tomcat Server App
 
 1. To install ReactApp you need:
     - open folder with react app in your terminal,
     - :~//ReactApp$ npm install
     - :~//ReactApp$ sudo npm install webpack -g
 
-2. Create folder /src/main/webapp/properties ,
+2. Create folder /src/main/webapp/properties . 
     Create file "database.properties" inside properties folder.
     
     Paste next code in database.properties :
@@ -19,8 +19,8 @@
    databse. In my case I change just password on my 
    local MySQL database. 
    
-4. Run react app with $ sudo npm start
-   Build index_bundle.js with $ npm run build
+4. Run react app with $ sudo npm start . 
+   Build index_bundle.js with $ npm run build . 
    
 5. Copy index_bundle.js from /ReactApp/dist folder to 
     /src/main/webapp/resources/js folder.

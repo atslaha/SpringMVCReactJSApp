@@ -4,7 +4,7 @@
   "description": "ReactJS App for SpringMVC and MySQL backend project",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot",
+    "start": "webpack-dev-server --mode development --open --hot ",
     "build": "webpack --mode production",
     "watch": "webpack --mode development --watch"
   },

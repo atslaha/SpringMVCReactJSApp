@@ -13,14 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -64,11 +63,11 @@ public class  LinesStatisticsController {
 	 * Upload single file using Spring Controller
 	 */
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	public @ResponseBody ModelAndView uploadFileHandler(@RequestParam("name") String name,
+	public @ResponseBody ResponseEntity<?> uploadFileHandler(@RequestParam("name") String name,
 									@RequestParam("file") MultipartFile file) {
 		
-		ModelAndView view = new ModelAndView("hello");
-		String message = "You successfully uploaded ";
+//		ModelAndView view = new ModelAndView("hello");
+//		String message = "You successfully uploaded ";
 		
 		if (!file.isEmpty()) {
 			try {
@@ -87,29 +86,31 @@ public class  LinesStatisticsController {
 				stream.close();
 
 				absoluteFilePath = serverFile.getAbsolutePath();
-				view.addObject("name", name);
-				view.addObject("message", message);
-				return view;
+//				view.addObject("name", name);
+//				view.addObject("message", message);
+				String str = "You successfully uploaded ";
+				return new ResponseEntity( HttpStatus.OK);
 			} catch (Exception e) {
 				String eGetMessage = e.getMessage();
 				String rootPath = System.getProperty("catalina.home");
 				if(eGetMessage.equals(rootPath + "/" + "tmpFiles" + " (Is a directory)")) {
 					eGetMessage = "the file! Fill the file name please!";
 				}
-				message = ("You failed to upload " + eGetMessage);
-				view.addObject("message", message);
-				return view;
+//				message = ("You failed to upload " + eGetMessage);
+//				view.addObject("message", message);
+				return new ResponseEntity<String>("Upload is failed", HttpStatus.EXPECTATION_FAILED);
 			}
 		} else {
-			message = "You failed to upload " + name + " because the file was empty.";
-			view.addObject("message", message);
-			return view;
+//			message = "You failed to upload " + name + " because the file was empty.";
+//			view.addObject("message", message);
+			return new ResponseEntity<String>("Upload is failed", HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
 	/**
 	 * Parse the File.
 	 */
+	@CrossOrigin
 	@RequestMapping(value = "/parse", method = RequestMethod.GET)
     public @ResponseBody ModelAndView handleParse(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -183,8 +184,20 @@ public class  LinesStatisticsController {
 	String listLinesRequest(){
 		List<LinesStatistics> listLines = service.listLines();
 		String listLinesJson = new Gson().toJson(listLines);
-
 		return listLinesJson;
+	}
+
+
+
+
+	@RequestMapping("/responseentity")
+	public ResponseEntity<String> handleResponseEntity() {
+
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.set("HeaderKey", "HeaderData");
+		return new ResponseEntity<String>(
+				"<i>This is</i> the <h2>Page value</h2> (ResponseBody)", responseHeaders,
+				HttpStatus.CREATED);
 	}
 
 

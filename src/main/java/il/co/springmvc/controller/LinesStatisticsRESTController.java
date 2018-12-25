@@ -11,7 +11,11 @@ import il.co.springmvc.services.LinesStatisticsServices;
 import il.co.springmvc.util.LongestAndShortestWord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +80,54 @@ public class LinesStatisticsRESTController {
         String listLinesJson = new Gson().toJson(listLines);
 
         return listLinesJson;
+    }
+
+
+    @PostMapping(value = "/uploadFilee")
+    public @ResponseBody String uploadFileHandler(@RequestParam("name") String name,
+                                                             @RequestParam("file") MultipartFile file) {
+
+//		ModelAndView view = new ModelAndView("hello");
+//		String message = "You successfully uploaded ";
+
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+
+                // Creating the directory to store file
+                String rootPath = System.getProperty("catalina.home");
+                File dir = new File(rootPath + File.separator + "tmpFiles");
+                if (!dir.exists())
+                    dir.mkdirs();
+
+                // Create the file on server
+                File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                stream.write(bytes);
+                stream.close();
+
+                absoluteFilePath = serverFile.getAbsolutePath();
+//				view.addObject("name", name);
+//				view.addObject("message", message);
+                String str = "You successfully uploaded ";
+                return str;
+            } catch (Exception e) {
+                String eGetMessage = e.getMessage();
+                String rootPath = System.getProperty("catalina.home");
+                if(eGetMessage.equals(rootPath + "/" + "tmpFiles" + " (Is a directory)")) {
+                    eGetMessage = "the file! Fill the file name please!";
+                }
+//				message = ("You failed to upload " + eGetMessage);
+//				view.addObject("message", message);
+                String dd = "cdsc";
+                return dd ;
+            }
+        } else {
+//			message = "You failed to upload " + name + " because the file was empty.";
+//			view.addObject("message", message);
+            String ddd = "cdscssss";
+            return ddd ;
+        }
     }
 
 
