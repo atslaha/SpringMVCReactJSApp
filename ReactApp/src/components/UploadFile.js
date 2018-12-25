@@ -22,7 +22,7 @@ export default class UploadFile extends React.Component {
         this.setState({file:e.target.files[0]})
     }
     fileUpload(file){
-        const url = 'http://localhost:8080/uploadFileReact';
+        const url = 'http://localhost:8080/uploadFile';
         const formData = new FormData();
         formData.append('file',file)
         const config = {

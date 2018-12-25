@@ -38,7 +38,15 @@ class App extends Component {
 
     }
 
+    buttonPrse(){
 
+        axios.get('http://localhost:8080/parse').then(response => console.log(response));
+
+    }buttonListLines(){
+
+        axios.get('http://localhost:8080/listLinesRequest').then(response => console.log(response));
+
+    }
 
 
 
@@ -54,27 +62,20 @@ class App extends Component {
 
                 <h1>My  React App</h1>
                 <h1>I'm Happy</h1>
-                <h1>I'm Happy</h1>
+                <h1>I'm Happy</h1><br/>
 
 
-                <form method="POST" action="http://localhost:8080/uploadFile" encType="multipart/form-data">
-                    File to upload: <input type="file" name="file" accept="text/plain" /><br/>
-                    Name: <input type="text" name="name" /><br/>
-                        <input type="submit" value="Upload" /> Press here to upload the file!
-                </form>
 
-                <h3>
-                    {/*${message} ${name}*/}
 
-                </h3>
+
+
+                <UploadFile/><br/>
 
                 <button className="parse-button"  onClick={this.buttonPrse}>Parse File</button><br/>
                 <button className="listLinesRequest-button"  onClick={this.buttonListLines}>List of Lines</button><br/>
 
 
                 <a href="responseentity">Test...</a>
-
-
 
                 <table>
                     <tbody>
@@ -90,21 +91,13 @@ class App extends Component {
 
                     </tbody>
                 </table>
-                <UploadFile/>
+
 
             </div>
         );
     }
 
-    buttonPrse(){
 
-        axios.get('http://localhost:8080/parse').then(response => console.log(response));
-
-    }buttonListLines(){
-
-        axios.get('http://localhost:8080/listLinesRequest').then(response => console.log(response));
-
-    }
 
 
 }

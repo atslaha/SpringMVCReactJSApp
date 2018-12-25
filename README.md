@@ -19,12 +19,13 @@
    databse. In my case I change just password on my 
    local MySQL database. 
    
-4. Run react app with $ sudo npm start . 
+4. Run react app (localhost:8008) with $ sudo npm start .  
    Build index_bundle.js with $ npm run build . 
    
 5. Copy index_bundle.js from /ReactApp/dist folder to 
     /src/main/webapp/resources/js folder.
     
 6. Create WAR with maven and deploy your app on the server. 
+    on (localhost:8080).
     Or run as Aplication Servers in Intellij IDEA.
 

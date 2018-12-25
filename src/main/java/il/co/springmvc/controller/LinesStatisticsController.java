@@ -58,17 +58,15 @@ public class  LinesStatisticsController {
 		System.out.println("in controller get");
 				return view;
 	}
-	
+
 	/**
 	 * Upload single file using Spring Controller
 	 */
+	@CrossOrigin
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<?> uploadFileHandler(@RequestParam("name") String name,
-									@RequestParam("file") MultipartFile file) {
-		
-//		ModelAndView view = new ModelAndView("hello");
-//		String message = "You successfully uploaded ";
-		
+	public @ResponseBody ResponseEntity<?> uploadFileHandler(@RequestParam("file") MultipartFile file) {
+		String name = "DefaultFileName";
+
 		if (!file.isEmpty()) {
 			try {
 				byte[] bytes = file.getBytes();
@@ -86,24 +84,23 @@ public class  LinesStatisticsController {
 				stream.close();
 
 				absoluteFilePath = serverFile.getAbsolutePath();
-//				view.addObject("name", name);
-//				view.addObject("message", message);
-				String str = "You successfully uploaded ";
-				return new ResponseEntity( HttpStatus.OK);
+				String str = "You've successfully uploaded the file!";
+				String strJson = new Gson().toJson(str);
+				return new ResponseEntity(strJson, HttpStatus.OK);
 			} catch (Exception e) {
 				String eGetMessage = e.getMessage();
 				String rootPath = System.getProperty("catalina.home");
 				if(eGetMessage.equals(rootPath + "/" + "tmpFiles" + " (Is a directory)")) {
 					eGetMessage = "the file! Fill the file name please!";
 				}
-//				message = ("You failed to upload " + eGetMessage);
-//				view.addObject("message", message);
-				return new ResponseEntity<String>("Upload is failed", HttpStatus.EXPECTATION_FAILED);
+				String message = ("You failed to upload " + eGetMessage);
+				String messageJson = new Gson().toJson(message);
+				return new ResponseEntity(messageJson, HttpStatus.EXPECTATION_FAILED);
 			}
 		} else {
-//			message = "You failed to upload " + name + " because the file was empty.";
-//			view.addObject("message", message);
-			return new ResponseEntity<String>("Upload is failed", HttpStatus.EXPECTATION_FAILED);
+			String message = "You failed to upload " + name + " because the file was empty.";
+			String messageJson = new Gson().toJson(message);
+			return new ResponseEntity(messageJson, HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
@@ -112,14 +109,15 @@ public class  LinesStatisticsController {
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "/parse", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView handleParse(HttpServletRequest request,
+    public @ResponseBody ResponseEntity<?> handleParse(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
-		ModelAndView view = new ModelAndView("hello");
 		LinesStatistics line = new LinesStatistics();
         File file = null;
         if (absoluteFilePath == null) {
-        	view.addObject("messageEx", "File not found! Please download the file!");
+        	String messageEx = "File not found! Please download the file!";
+        	String messageExJson = new Gson().toJson(messageEx);
+			return new ResponseEntity(messageExJson,HttpStatus.EXPECTATION_FAILED);
         }else {
         	file = new File(absoluteFilePath);
             System.out.println(file);
@@ -152,7 +150,8 @@ public class  LinesStatisticsController {
         
 	}
         System.out.println("in parse");
-        return view;     
+		String messageExJson = new Gson().toJson("File was parsed!");
+		return new ResponseEntity(messageExJson,HttpStatus.OK);
     }
 	
 	/**
@@ -201,54 +200,7 @@ public class  LinesStatisticsController {
 				HttpStatus.CREATED);
 	}
 
-	/**
-	 * Upload single file using Spring Controller
-	 */
-	@CrossOrigin
-	@RequestMapping(value = "/uploadFileReact", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<?> uploadFileHandler(
-															 @RequestParam("file") MultipartFile file) {
-        String name = "DefaultFileName";
-//		ModelAndView view = new ModelAndView("hello");
-//		String message = "You successfully uploaded ";
 
-		if (!file.isEmpty()) {
-			try {
-				byte[] bytes = file.getBytes();
-
-				// Creating the directory to store file
-				String rootPath = System.getProperty("catalina.home");
-				File dir = new File(rootPath + File.separator + "tmpFiles");
-				if (!dir.exists())
-					dir.mkdirs();
-
-				// Create the file on server
-				File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-
-				absoluteFilePath = serverFile.getAbsolutePath();
-//				view.addObject("name", name);
-//				view.addObject("message", message);
-				String str = "You successfully uploaded ";
-				return new ResponseEntity( HttpStatus.OK);
-			} catch (Exception e) {
-				String eGetMessage = e.getMessage();
-				String rootPath = System.getProperty("catalina.home");
-				if(eGetMessage.equals(rootPath + "/" + "tmpFiles" + " (Is a directory)")) {
-					eGetMessage = "the file! Fill the file name please!";
-				}
-//				message = ("You failed to upload " + eGetMessage);
-//				view.addObject("message", message);
-				return new ResponseEntity<String>("Upload is failed", HttpStatus.EXPECTATION_FAILED);
-			}
-		} else {
-//			message = "You failed to upload " + name + " because the file was empty.";
-//			view.addObject("message", message);
-			return new ResponseEntity<String>("Upload is failed", HttpStatus.EXPECTATION_FAILED);
-		}
-	}
 
 
 }
