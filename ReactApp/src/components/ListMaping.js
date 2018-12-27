@@ -1,48 +1,50 @@
-import axios, { post } from 'axios';
-import {Fragment} from "react";
+import axios, { post, get } from 'axios';
+import {handleChange} from './App';
+
 
 const React = require('react');
+
 
 
 export default class ListMapping extends React.Component{
 
     constructor(props) {
         super(props);
-        this.state = {
-            line_id: 0,
+        this.state ={
+            listLines: props.listLines,
         }
-
         this.deleteRow = this.deleteRow.bind(this);
+        this.updateRows = this.updateRows.bind(this);
+        this.sendData = this.sendData.bind(this);
     }
 
-    deleteRow(e){
-        //this.setState({line_id: e});
+    // componentDidMount() {
+    //     console.log(this);
+    // }
 
-        axios.get(`http://localhost:8080/delete-${e}-line`).then(response =>{
-            console.log(response);
+    updateRows(){
+
+        axios.get('http://localhost:8080/listLinesRequest')
+            .then(function (response) {
+                console.log(response);
+                this.setState({listLines: response.data});
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    sendData() {
+        this.props.buttonListLines();
+    }
+
+deleteRow(e){
+        axios.get(`http://localhost:8080/delete-${e}-line`).then( function (response) {
             console.log(response.data);
-            console.log(this.state.line_id);
-        })
+        }).then(this.updateRows).then(this.sendData)
             .catch(function (error) {
             console.log(error);
         });
-    //console.log(e);
-    //     const url = 'http://localhost:8080/delete-{line_id}-line';
-    //     const formData = new FormData();
-        //formData.append('line_id',e);
-
-        // this.Axios.post('/delete-{line_id}-line', {
-        //     line_id: e,
-        //
-        // })
-        //     .then(function (response) {
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
-
-   // (e) => this.deleteRow(this.props.listLines.line_id, e)
     }
 
     render() {
@@ -55,7 +57,6 @@ export default class ListMapping extends React.Component{
                 <td>{this.props.listLines.average_w_length}</td>
                 <td>
                     <button className="btn delete" onClick={(e) => this.deleteRow(this.props.listLines.line_id, e)}>Delete</button>
-                    {/*<a href={`http://localhost:8080/delete-${this.props.listLines.line_id}-line`} >DELETE</a>*/}
                 </td>
             </tr>
         )

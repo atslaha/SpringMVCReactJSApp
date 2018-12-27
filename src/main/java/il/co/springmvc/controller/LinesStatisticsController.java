@@ -29,7 +29,7 @@ import il.co.springmvc.util.LongestAndShortestWord;
 
 /**
  * @author Artem Meleshko
- * @version 1.0 2017
+ * @version 1.0.1 2018
  *
  */
 @Controller
@@ -155,17 +155,6 @@ public class  LinesStatisticsController {
     }
 	
 	/**
-     * This method will list all existing lines in the DB.
-     */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String listEmployees(ModelMap model) {
- 
-        List<LinesStatistics> listLines = service.listLines();
-        model.addAttribute("listLines", listLines);
-        return "hello";
-    }
-    
-    /**
      * This method will delete a line by it's line_id value.
      */
 	@CrossOrigin
@@ -179,8 +168,9 @@ public class  LinesStatisticsController {
 
     }
 
-    // TEST CONTROLLERS
-
+	/**
+	 * This method will return a list of lines in JSON.
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/listLinesRequest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
@@ -189,21 +179,5 @@ public class  LinesStatisticsController {
 		String listLinesJson = new Gson().toJson(listLines);
 		return listLinesJson;
 	}
-
-
-
-
-	@RequestMapping("/responseentity")
-	public ResponseEntity<String> handleResponseEntity() {
-
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("HeaderKey", "HeaderData");
-		return new ResponseEntity<String>(
-				"<i>This is</i> the <h2>Page value</h2> (ResponseBody)", responseHeaders,
-				HttpStatus.CREATED);
-	}
-
-
-
 
 }
